@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bookings - Smart Street Parking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .badge { @apply px-2 py-1 rounded-full text-xs font-semibold; }
+    .badge-active { @apply bg-green-200 text-green-900; }
+    .badge-completed { @apply bg-blue-200 text-blue-900; }
+    .badge-cancelled { @apply bg-red-200 text-red-900; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 font-sans">
+
+  <!-- NAVBAR (copy from your index.html for consistency) -->
+  <nav class="bg-indigo-800 text-white shadow-md fixed top-0 left-0 w-full z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-xl">
+        <span class="text-2xl">🚗</span>
+        <span>Smart Street Parking</span>
+      </a>
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="hover:text-yellow-300 transition">Home</a>
+        <a href="bookings.html" class="hover:text-yellow-300 transition">Bookings</a>
+        <a href="summary.html" class="hover:text-yellow-300 transition">Summary</a>
+        <a href="login.php" class="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full shadow hover:bg-gray-200 transition ml-2">
+          🔐 Login
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div class="h-16"></div>
+
+  <!-- Booking Summary -->
+  <section class="max-w-4xl mx-auto mt-8">
+    <div class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <div class="text-lg font-bold text-indigo-700">Booking Summary</div>
+        <div class="text-sm text-gray-500">Overview of your parking activity</div>
+      </div>
+      <div class="flex gap-6">
+        <div>
+          <div class="font-bold text-xl" id="totalBookings">2</div>
+          <div class="text-xs text-gray-500">Total Bookings</div>
+        </div>
+        <div>
+          <div class="font-bold text-xl" id="activeBookings">1</div>
+          <div class="text-xs text-gray-500">Active</div>
+        </div>
+        <div>
+          <div class="font-bold text-xl" id="totalSpent">₹60</div>
+          <div class="text-xs text-gray-500">Spent</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Help/Instructions -->
+  <section class="max-w-4xl mx-auto mt-6">
+    <div class="bg-indigo-50 rounded-xl p-4 shadow flex items-center gap-3">
+      <span class="text-2xl">❓</span>
+      <div>
+        <div class="font-semibold text-indigo-700">How to use this page?</div>
+        <ul class="list-disc ml-5 text-sm text-gray-700">
+          <li>See all your current and past parking bookings below.</li>
+          <li>Use the search box to filter by date or slot.</li>
+          <li>Click "Cancel" to cancel an active booking.</li>
+          <li>Status badges show if a booking is active, completed, or cancelled.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search/Filter -->
+  <section class="max-w-4xl mx-auto mt-6">
+    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search by date, slot, or status..."
+      class="w-full p-2 border rounded mb-2" />
+  </section>
+
+  <!-- Bookings Table -->
+  <section class="max-w-4xl mx-auto bg-white rounded-xl shadow p-8 mt-2">
+    <h2 class="text-2xl font-bold mb-4 text-indigo-700">Your Bookings</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border-collapse" id="bookingsTable">
+        <thead>
+          <tr class="bg-indigo-100">
+            <th class="p-3 text-left">Date</th>
+            <th class="p-3 text-left">Slot</th>
+            <th class="p-3 text-left">Duration</th>
+            <th class="p-3 text-left">Amount</th>
+            <th class="p-3 text-left">Status</th>
+            <th class="p-3 text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-3">2025-07-01</td>
+            <td class="p-3">A3</td>
+            <td class="p-3">2 hours</td>
+            <td class="p-3">₹40</td>
+            <td class="p-3"><span class="badge badge-active">Active</span></td>
+            <td class="p-3">
+              <button onclick="cancelBooking(this)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs">Cancel</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="p-3">2025-06-28</td>
+            <td class="p-3">B1</td>
+            <td class="p-3">1 hour</td>
+            <td class="p-3">₹20</td>
+            <td class="p-3"><span class="badge badge-completed">Completed</span></td>
+            <td class="p-3 text-gray-400 text-xs">-</td>
+          </tr>
+          <!-- More rows can be added dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="bg-indigo-700 text-white text-center py-4 mt-12">
+    &copy; 2025 🚗 Smart Street Parking System. All rights reserved.
+  </footer>
+
+  <script>
+    // Simple search/filter
+    function filterTable() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#bookingsTable tbody tr");
+      rows.forEach(row => {
+        row.style.display = Array.from(row.cells).some(cell =>
+          cell.textContent.toLowerCase().includes(input)
+        ) ? "" : "none";
+      });
+    }
+
+    // Cancel booking (for demo, just changes status)
+    function cancelBooking(btn) {
+      if (confirm("Are you sure you want to cancel this booking?")) {
+        const row = btn.closest("tr");
+        row.cells[4].innerHTML = '<span class="badge badge-cancelled">Cancelled</span>';
+        btn.parentNode.innerHTML = '<span class="text-gray-400 text-xs">-</span>';
+        // In a real app, send AJAX request to backend to cancel
+      }
+    }
+  </script>
+</body>
+</html>

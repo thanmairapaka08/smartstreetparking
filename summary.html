@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parking Slot Summary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* The animation is now unused and can be deleted or kept for future use */
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-blue-100 min-h-screen text-gray-800 font-sans">
+  <header class="bg-indigo-700 text-white p-5 shadow-md">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🚗 Smart Street Parking</h1>
+      <a href="index.html"
+         class="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full shadow hover:bg-gray-200 transition">
+        ⬅️ Home
+      </a>
+    </div>
+  </header>
+
+  <section class="max-w-2xl mx-auto py-12 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center">Live Slot Summary</h2>
+    <div id="slotSummary" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    <div id="summaryError" class="text-center text-red-600 mt-6"></div>
+  </section>
+
+  <footer class="bg-indigo-700 text-white text-center py-4 mt-12">
+    &copy; 2025 🚗 Smart Street Parking System. All rights reserved.
+  </footer>
+
+  <script>
+    const channelID = 3004368; // Your ThingSpeak Channel ID
+    const readAPIKey = "9KKO6RSSCFBAWTFP"; // <-- Replace with your Read API Key
+    const numSlots = 4;        // Number of parking slots
+
+    async function fetchSlotSummary() {
+      try {
+        const res = await fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPIKey}&results=1`);
+        const data = await res.json();
+        const fields = data.feeds[0];
+        let html = '';
+        let freeCount = 0, occCount = 0;
+
+        for (let i = 1; i <= numSlots; i++) {
+          let reading = fields[`field${i}`];
+          let isOccupied = (reading === "1");
+          let status = isOccupied ? "Occupied" : "Free";
+          if (isOccupied) occCount++; else freeCount++;
+          html += `
+            <div class="p-6 rounded-2xl shadow bg-white flex items-center space-x-4">
+              <div class="text-4xl">${isOccupied ? "🔴" : "🟢"}</div>
+              <div>
+                <div class="text-lg font-bold">Slot ${i}</div>
+                <div class="text-md ${isOccupied ? "text-red-600" : "text-green-600"}">${status}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        html = `
+          <div class="col-span-full flex justify-center gap-8 mb-8">
+            <div class="bg-green-200 text-green-800 px-5 py-2 rounded-full font-semibold">
+              Free: ${freeCount}
+            </div>
+            <div class="bg-red-200 text-red-800 px-5 py-2 rounded-full font-semibold">
+              Occupied: ${occCount}
+            </div>
+          </div>
+        ` + html;
+
+        document.getElementById("slotSummary").innerHTML = html;
+        document.getElementById("summaryError").textContent = "";
+      } catch (e) {
+        document.getElementById("summaryError").textContent = "⚠️ Unable to fetch slot data from ThingSpeak.";
+      }
+    }
+
+    setInterval(fetchSlotSummary, 3000); // refresh every 3 seconds
+    window.onload = fetchSlotSummary;
+  </script>
+</body>
+</html>

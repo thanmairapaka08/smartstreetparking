@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Smart Street Parking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex items-center justify-center font-sans">
+
+  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
+    <h2 class="text-2xl font-bold mb-6 text-indigo-700 text-center">
+      🔐 Login
+    </h2>
+
+    <form method="POST" action="login.php">
+      <label class="block mb-4">
+        <span class="text-gray-700">Username</span>
+        <input type="text" name="username" required
+               class="mt-1 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+      </label>
+
+      <label class="block mb-6">
+        <span class="text-gray-700">Password</span>
+        <input type="password" name="password" required
+               class="mt-1 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+      </label>
+
+      <button type="submit"
+              class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-4 text-center text-sm">
+      Don’t have an account?
+      <a href="register.html" class="text-blue-600 hover:underline">Register here</a>
+    </p>
+  </div>
+
+</body>
+</html>
