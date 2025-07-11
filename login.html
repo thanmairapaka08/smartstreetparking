@@ -80,10 +80,12 @@
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
 
-    // Demo: simple hardcoded user check
+    // Hardcoded demo credentials
     if (username === 'user' && password === 'password123') {
+      // Store username in sessionStorage
       sessionStorage.setItem('username', username);
-      window.location.href = 'home.html';
+      // Redirect to index.html
+      window.location.href = 'index.html?login=success';
     } else {
       errorMsg.style.display = 'block';
     }
