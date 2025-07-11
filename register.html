@@ -2,41 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Register - Smart Street Parking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Register</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #004d40;
+    }
+    .register-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="password"], input[type="email"] {
+      width: 100%;
+      padding: 12px 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00796b;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #004d40;
+    }
+    .error-message, .success-message {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .error-message {
+      color: red;
+    }
+    .success-message {
+      color: green;
+    }
+    .link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    .link a {
+      color: #00796b;
+      text-decoration: none;
+    }
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-green-100 to-blue-200 min-h-screen flex items-center justify-center font-sans">
+<body>
 
-  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
-    <h2 class="text-2xl font-bold mb-6 text-green-700 text-center">
-      📝 Register
-    </h2>
-
-    <form method="POST" action="register.php">
-      <label class="block mb-4">
-        <span class="text-gray-700">Username</span>
-        <input type="text" name="username" required
-               class="mt-1 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" />
-      </label>
-
-      <label class="block mb-6">
-        <span class="text-gray-700">Password</span>
-        <input type="password" name="password" required
-               class="mt-1 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-400" />
-      </label>
-
-      <button type="submit"
-              class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
-        Register
-      </button>
-    </form>
-
-    <p class="mt-4 text-center text-sm">
-      Already have an account?
-      <a href="login.html" class="text-blue-600 hover:underline">Login here</a>
-    </p>
+<div class="register-container">
+  <h2>Register</h2>
+  <form id="registerForm" autocomplete="off">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required minlength="6" />
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required minlength="6" />
+    <button type="submit">Register</button>
+    <div id="errorMsg" class="error-message"></div>
+    <div id="successMsg" class="success-message"></div>
+  </form>
+  <div class="link">
+    Already have an account? <a href="login.html">Login here</a>
   </div>
+</div>
+
+<script>
+  const registerForm = document.getElementById('registerForm');
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+
+  registerForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    errorMsg.style.display = 'none';
+    successMsg.style.display = 'none';
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+    if (password !== confirmPassword) {
+      errorMsg.textContent = "Passwords do not match.";
+      errorMsg.style.display = 'block';
+      return;
+    }
+    if (username.length < 3) {
+      errorMsg.textContent = "Username must be at least 3 characters.";
+      errorMsg.style.display = 'block';
+      return;
+    }
+    if (password.length < 6) {
+      errorMsg.textContent = "Password must be at least 6 characters.";
+      errorMsg.style.display = 'block';
+      return;
+    }
+
+    // Simulate registration success (replace with backend API call)
+    successMsg.textContent = "Registration successful! Redirecting to login...";
+    successMsg.style.display = 'block';
+
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 2000);
+  });
+</script>
 
 </body>
 </html>
