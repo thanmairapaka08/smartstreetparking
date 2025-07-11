@@ -2,41 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login - Smart Street Parking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #004d40;
+    }
+    .login-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00796b;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #004d40;
+    }
+    .error-message {
+      color: red;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex items-center justify-center font-sans">
+<body>
 
-  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
-    <h2 class="text-2xl font-bold mb-6 text-indigo-700 text-center">
-      🔐 Login
-    </h2>
+<div class="login-container">
+  <h2>Login</h2>
+  <form id="loginForm" autocomplete="off">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+    <div id="errorMsg" class="error-message">Invalid username or password.</div>
+  </form>
+</div>
 
-    <form method="POST" action="login.php">
-      <label class="block mb-4">
-        <span class="text-gray-700">Username</span>
-        <input type="text" name="username" required
-               class="mt-1 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-      </label>
+<script>
+  const loginForm = document.getElementById('loginForm');
+  const errorMsg = document.getElementById('errorMsg');
 
-      <label class="block mb-6">
-        <span class="text-gray-700">Password</span>
-        <input type="password" name="password" required
-               class="mt-1 w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-      </label>
+  loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-      <button type="submit"
-              class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
-        Login
-      </button>
-    </form>
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-    <p class="mt-4 text-center text-sm">
-      Don’t have an account?
-      <a href="register.html" class="text-blue-600 hover:underline">Register here</a>
-    </p>
-  </div>
+    // Demo: simple hardcoded user check
+    if (username === 'user' && password === 'password123') {
+      sessionStorage.setItem('username', username);
+      window.location.href = 'home.html';
+    } else {
+      errorMsg.style.display = 'block';
+    }
+  });
+</script>
 
 </body>
 </html>
