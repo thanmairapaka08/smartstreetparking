@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="5;url=login.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logged Out</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+    }
+    .container {
+      background: white;
+      padding: 40px 60px;
+      border-radius: 12px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #2C3E50;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 25px;
+    }
+    .btn-login {
+      display: inline-block;
+      background: #3498db;
+      color: white;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+    }
+    .btn-login:hover {
+      background: #2980b9;
+      box-shadow: 0 8px 20px rgba(41, 128, 185, 0.6);
+    }
+    .timer {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>You've been logged out</h1>
+    <p>Redirecting you to the login page in <span id="countdown">5</span> seconds...</p>
+    <a href="login.html" class="btn-login">Go to Login Now</a>
+    <div class="timer" id="timer"></div>
+  </div>
+
+  <script>
+    let countdownEl = document.getElementById('countdown');
+    let timeLeft = 5;
+
+    const timer = setInterval(() => {
+      timeLeft--;
+      countdownEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
