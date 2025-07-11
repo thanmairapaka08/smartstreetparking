@@ -4,14 +4,8 @@ if (!isset($_SESSION['username'])) {
   header("Location: login.html");
   exit();
 }
+?>add popup here 
 
-// Show alert once after login
-$showLoginAlert = false;
-if (isset($_SESSION['just_logged_in']) && $_SESSION['just_logged_in'] === true) {
-  $showLoginAlert = true;
-  unset($_SESSION['just_logged_in']); // Remove flag so alert shows only once
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,12 +23,6 @@ if (isset($_SESSION['just_logged_in']) && $_SESSION['just_logged_in'] === true) 
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 font-sans">
-
-<?php if ($showLoginAlert): ?>
-<script>
-  alert("You have been logged in!");
-</script>
-<?php endif; ?>
 
   <!-- ──────────────── TASKBAR / NAVBAR ──────────────── -->
   <nav class="bg-indigo-800 text-white shadow-md fixed top-0 left-0 w-full z-50">
@@ -54,7 +42,7 @@ if (isset($_SESSION['just_logged_in']) && $_SESSION['just_logged_in'] === true) 
           ➕ Add Coins
         </button>
         <?php if (isset($_SESSION['username'])): ?>
-          <span class="text-sm text-white ml-4">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+          <span class="text-sm text-white ml-4">👤 <?php echo $_SESSION['username']; ?></span>
           <a href="logout.html" class="bg-red-500 text-white px-4 py-2 rounded-full ml-2 hover:bg-red-600 transition">🚪 Logout</a>
         <?php else: ?>
           <a href="login.html" class="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full shadow hover:bg-gray-200 transition ml-2">
